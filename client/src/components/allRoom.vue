@@ -3,10 +3,10 @@
   <div>
     <ul v-for="room in roomList">
       <li>
-        <router-link :to="{ name: 'room', params: { roomId: room.roomId } }">{{
-          room.roomname
+        <router-link :to="{ name: 'room', params: { roomId: room.deal_id } }">{{
+          room.title
         }}</router-link>
-        <button type="button" @click="onEnterRoom(room.roomId)">
+        <button type="button" @click="onEnterRoom(room.deal_id)">
           Be a Member
         </button>
       </li>
@@ -33,7 +33,7 @@ export default {
     const getRoomFail = (respData) => {
       console.log("❌ Get Rooms - Fail");
     };
-    axiosGet(`/rooms`, getRoomSuccess, getRoomFail);
+    axiosGet(`/room`, getRoomSuccess, getRoomFail);
   },
 };
 </script>
@@ -52,6 +52,6 @@ const onEnterRoom = (roomId) => {
   const { axiosGet, axiosPost } = useAxios();
   const store = useUserInfoStore();
   const data = { roomId: roomId, nickname: store.userNick };
-  axiosPost("/rooms/enter", data, enterRoomSuccess, enterRoomFail);
+  axiosPost("/room/enter", data, enterRoomSuccess, enterRoomFail);
 };
 </script>

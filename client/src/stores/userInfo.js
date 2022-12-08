@@ -1,17 +1,28 @@
 import { defineStore } from "pinia";
 
 export const useUserInfoStore = defineStore("userInfo", {
-  state: () => ({ userName: "", userNick: "", loggedIn: false }),
+  state: () => ({
+    userNick: "",
+    loggedIn: false,
+    accessToken: "",
+    refreshToken: "",
+  }),
   actions: {
-    setInfo(name, nick, isLoggedIn) {
-      this.userName = name;
+    setInfo(nick, isLoggedIn, accessToken, refreshToken) {
       this.userNick = nick;
       this.loggedIn = isLoggedIn;
+      this.accessToken = accessToken;
+      this.refreshToken = refreshToken;
     },
   },
   getters: {
     getInfo(state) {
-      return [state.userName, state.userNick, state.loggedIn];
+      return [
+        state.userNick,
+        state.loggedIn,
+        state.accessToken,
+        state.refreshToken,
+      ];
     },
   },
   persist: true,

@@ -3,11 +3,7 @@ import express from "express";
 import cors from "cors";
 import morgan from "morgan";
 import socket from "socket.io";
-import userRouter from "./routes/userRouter";
 import chatRouter from "./routes/chatRouter";
-const productRouter = require("./routes/productRouter");
-const imageRouter = require("./routes/imageRouter");
-// const db = require("./tools/authdb");
 
 const app = express();
 
@@ -26,24 +22,10 @@ app.use(function (req, res, next) {
   next();
 });
 
-app.use("/product", productRouter);
-app.use("/image", imageRouter);
-app.use("/users", userRouter);
-app.use("/rooms", chatRouter);
-
-/*
-const rdsTestRouter = express.Router();
-
-const rdsTestHandler = async (req, res) => {
-  const [result] = await db.query("SELECT * FROM user;");
-  console.log(result);
-
-  return res.status(200).json({ message: "rdsTest Done", result: result });
-};
-
-rdsTestRouter.post("/", rdsTestHandler);
-app.use("/rdsTest", rdsTestRouter);
-*/
+//app.use("/product", productRouter);
+//app.use("/image", imageRouter);
+//app.use("/users", userRouter);
+app.use("/room", chatRouter);
 
 const server = app.listen(process.env.SERVER_PORT, () => {
   console.log(`✅ Server running on ${process.env.SERVER_PORT}`);

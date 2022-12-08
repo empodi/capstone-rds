@@ -4,13 +4,13 @@
       <h1 class="mb-5">Login</h1>
       <form>
         <div class="mb-2 row">
-          <label for="userID" class="col-sm-4 col-form-label">ID</label>
+          <label for="nickname" class="col-sm-4 col-form-label">ID</label>
           <div class="col-sm-8">
             <input
               type="text"
               class="form-control"
-              v-model="userInfo.userID"
-              id="userID"
+              v-model="userInfo.nickname"
+              id="nickname"
               placeholder="ID"
               required
             />
@@ -19,13 +19,13 @@
         </div>
 
         <div class="mb-2 row">
-          <label for="userPWD" class="col-sm-4 col-form-label">Password</label>
+          <label for="password" class="col-sm-4 col-form-label">Password</label>
           <div class="col-sm-8">
             <input
               type="password"
               class="form-control"
-              v-model="userInfo.userPWD"
-              id="userPWD"
+              v-model="userInfo.password"
+              id="password"
               placeholder="Password"
               required
             />
@@ -67,8 +67,8 @@ import router from "../routers";
 const { axiosGet, axiosPost } = useAxios();
 
 const userInfo = reactive({
-  userID: "",
-  userPWD: "",
+  nickname: "",
+  password: "",
 });
 
 const goToJoin = () => {
@@ -76,8 +76,9 @@ const goToJoin = () => {
 };
 
 const onLoginSuccess = (respData) => {
+  console.log(respData);
   const userStore = useUserInfoStore();
-  userStore.setInfo(respData.data.userID, respData.data.userNick, true);
+  userStore.setInfo(userInfo.nickname, true, respData.accesstoken, "");
   console.log("✅ userStore", userStore.getInfo);
   if (userStore.loggedIn) {
     router.push("/");
@@ -89,7 +90,17 @@ const onLoginFail = (respData = null) => {
 };
 
 const loginSubmit = () => {
-  axiosPost("/users/login", userInfo, onLoginSuccess, onLoginFail);
+  //axiosPost("/users/login", userInfo, onLoginSuccess, onLoginFail);
+  const data = {
+    id: userInfo.nickname,
+    password: userInfo.password,
+  };
+  axiosPost(
+    "http://gonggu-alb-test-333249785.ap-northeast-2.elb.amazonaws.com/login",
+    data,
+    onLoginSuccess,
+    onLoginFail
+  );
 };
 </script>
 

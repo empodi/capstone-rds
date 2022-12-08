@@ -2,6 +2,7 @@ import express from "express";
 import {
   getAllRooms,
   enterRoom,
+  getAttachedRooms,
   checkUserInRoom,
   getChat,
   postChat,
@@ -10,12 +11,13 @@ import {
 
 const chatRouter = express.Router();
 
-// api starts with rooms
+// api starts with room
 chatRouter.get("/", getAllRooms);
 chatRouter.post("/enter", enterRoom);
 chatRouter.get("/:roomId/nickname/:nickname", checkUserInRoom);
-chatRouter.get("/getChat/:roomId", getChat);
-chatRouter.post("/saveChat", postChat);
-chatRouter.post("/notify", postSendNotification);
+chatRouter.get("/:roomId/chat", getChat);
+chatRouter.get("/:nickname", getAttachedRooms);
+chatRouter.post("/chat", postChat);
+chatRouter.post("/notification", postSendNotification);
 
 export default chatRouter;
